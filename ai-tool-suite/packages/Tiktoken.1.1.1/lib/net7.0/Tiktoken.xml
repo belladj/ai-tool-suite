@@ -1,0 +1,221 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Tiktoken</name>
+    </assembly>
+    <members>
+        <member name="T:Tiktoken.CoreBpe">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Tiktoken.CoreBpe.#ctor(System.Collections.Generic.IReadOnlyDictionary{System.Byte[],System.Int32},System.Collections.Generic.IReadOnlyDictionary{System.String,System.Int32},System.String)">
+            <summary>
+            
+            </summary>
+            <param name="encoder"></param>
+            <param name="specialTokensEncoder"></param>
+            <param name="pattern"></param>
+        </member>
+        <member name="M:Tiktoken.CoreBpe.CountTokensNative(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tiktoken.CoreBpe.EncodeNative(System.String,System.Collections.Generic.HashSet{System.String},System.Collections.Generic.HashSet{System.String})">
+            <summary>
+            
+            </summary>
+            <param name="text"></param>
+            <param name="allowedSpecial"></param>
+            <param name="disallowedSpecial"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tiktoken.CoreBpe.Explore(System.String,System.Collections.Generic.HashSet{System.String},System.Collections.Generic.HashSet{System.String})">
+            <summary>
+            
+            </summary>
+            <param name="text"></param>
+            <param name="allowedSpecial"></param>
+            <param name="disallowedSpecial"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tiktoken.CoreBpe.DecodeNative(System.Collections.Generic.IReadOnlyCollection{System.Int32})">
+            <summary>
+            
+            </summary>
+            <param name="tokens"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Tiktoken.Encoding">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Tiktoken.Encoding.ForModel(System.String)">
+            <summary>
+            Returns encoding by model name.
+            </summary>
+            <param name="modelName">gpt-3.5-turbo</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tiktoken.Encoding.Get(System.String)">
+            <summary>
+            Returns encoding by name.
+            </summary>
+            <param name="encodingName">cl100k_base</param>
+            <returns></returns>
+        </member>
+        <member name="P:Tiktoken.Encoding.EnableCache">
+            <summary>
+            Enable cache for fast encoding.
+            Default: true.
+            </summary>
+        </member>
+        <member name="M:Tiktoken.Encoding.#ctor(Tiktoken.Models.EncodingSettingModel)">
+            <summary>
+            
+            </summary>
+            <param name="setting"></param>
+        </member>
+        <member name="M:Tiktoken.Encoding.CountTokens(System.String)">
+            <summary>
+            Counts tokens in fast mode. Does not take into account special tokens.
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tiktoken.Encoding.Encode(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:Tiktoken.Encoding.Explore(System.String)">
+            <summary>
+            Returns tokens from the parsing/processing stage as a list of strings.
+            This would enhance visibility over the tokenization process, facilitate token manipulation,
+            and could serve as a useful tool for educational purposes.
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:Tiktoken.Encoding.EncodeWithAllAllowedSpecial(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:Tiktoken.Encoding.EncodeWithAllDisallowedSpecial(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:Tiktoken.Encoding.EncodeWithAllowedSpecial(System.String,System.Collections.Generic.IReadOnlyCollection{System.String})">
+            <summary>
+            
+            </summary>
+            <param name="text"></param>
+            <param name="allowedSpecial"></param>
+            <returns></returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:Tiktoken.Encoding.EncodeWithDisallowedSpecial(System.String,System.Collections.Generic.IReadOnlyCollection{System.String})">
+            <summary>
+            
+            </summary>
+            <param name="text"></param>
+            <param name="disallowedSpecial"></param>
+            <returns></returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:Tiktoken.Encoding.Decode(System.Collections.Generic.IReadOnlyCollection{System.Int32})">
+            <summary>
+            
+            </summary>
+            <param name="tokens"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Tiktoken.Models.EncodingSettingModel">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Tiktoken.Models.EncodingSettingModel.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Tiktoken.Models.EncodingSettingModel.Pattern">
+            <summary>
+            regex
+            </summary>
+        </member>
+        <member name="P:Tiktoken.Models.EncodingSettingModel.ExplicitNVocab">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Tiktoken.Models.EncodingSettingModel.MergeableRanks">
+            <summary>
+            tiktoken file
+            </summary>
+        </member>
+        <member name="P:Tiktoken.Models.EncodingSettingModel.SpecialTokens">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Tiktoken.Services.EncodingManager.Get(System.String)">
+            <summary>
+            Returns encoding setting by encoding name.
+            </summary>
+            <param name="encodingName">cl100k_base p50k_base ...</param>
+            <returns></returns>
+        </member>
+        <member name="M:Tiktoken.Services.Helpers.GetNameByModel(System.String)">
+            <summary>
+            Returns encoding name by model name or throws exception.
+            </summary>
+            <param name="modelName">gpt-4 gpt-3.5-turbo ...</param>
+            <exception cref="T:System.ArgumentException"></exception>
+            <returns></returns>
+        </member>
+        <member name="T:Tiktoken.Utilities.ByteArrayComparer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Tiktoken.Utilities.ByteArrayComparer.Equals(System.Byte[],System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Tiktoken.Utilities.ByteArrayComparer.GetHashCode(System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="T:Tiktoken.Utilities.BytePairEncoding">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>

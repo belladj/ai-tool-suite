@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ai_tool_suite.Models.Prompts>
+
+@{
+    ViewBag.Title = "Prompt Tester";
+}
+
+<h3>Prompt Tester</h3>
+
+<p>
+    @Html.ActionLink("Add New Row", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Prompt (Request)
+        </th>
+        <th>
+            Result (Response)
+        </th>
+        <th>
+            Prompt Tokens
+        </th>
+        <th>
+           Completion Tokens
+        </th>
+        <th>
+            Total Tokens
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Prompt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Result)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PromptTokens)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompletionTokens)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalTokens)
+        </td>
+        <td>
+            @Html.ActionLink("Delete", "Delete", new { id = item.ID }) |
+            @if (item.CompletionTokens != 0)
+            {
+                @Html.ActionLink("Rerun", "Run", new { id = item.ID })
+            }
+            else
+            {
+                @Html.ActionLink("Run", "Run", new { id = item.ID })
+            }
+        </td>
+    </tr>
+}
+
+</table>

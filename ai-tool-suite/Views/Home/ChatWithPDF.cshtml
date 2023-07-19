@@ -1,0 +1,155 @@
+﻿@model  IEnumerable<ai_tool_suite.Models.Pdfs>
+
+@{
+    ViewBag.Title = "Chat With PDF";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <style type="text/css">
+        body {
+            font-family: Arial;
+            font-size: 10pt;
+        }
+
+        table {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+        }
+
+            table th {
+                background-color: #F7F7F7;
+                color: #333;
+                font-weight: bold;
+            }
+
+            table th, table td {
+                padding: 5px;
+                border: 1px solid #ccc;
+            }
+
+        #pdf_container {
+            background: #ccc;
+            text-align: center;
+            display: none;
+            padding: 5px;
+            height: 820px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <h3>Chat with PDF</h3>
+
+    @using (Html.BeginForm("Index", "Pdf", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input type="file" name="postedFile" />
+        <input type="submit" id="btnUpload" value="Upload" />
+    }
+    <hr />
+    <table id="tblFiles" cellpadding="0" cellspacing="0">
+        <tr>
+            <th style="width:120px">File Name</th>
+            <th style="width:80px"></th>
+        </tr>
+        @if (Model != null)
+        {
+            foreach (var file in Model)
+            {
+                <tr>
+                    <td>@file.Name</td>
+                    <td><a class="view" href="javascript:;" rel='@file.ID'>View PDF</a></td>
+                </tr>
+            }
+        }
+    </table>
+    <hr />
+    <div id="pdf_container"></div>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf_viewer.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+        $(function () {
+            $("[id*=tblFiles] .view").click(function () {
+                var fileId = $(this).attr("rel");
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/GetPDF",
+                    data: "{fileId: " + fileId + "}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (r) {
+                        LoadPdfFromBlob(r.Data);
+                    }
+                });
+            });
+        });
+        var pdfjsLib = window['pdfjs-dist/build/pdf'];
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
+        var pdfDoc = null;
+        var scale = 1;
+        var resolution = 1;
+
+        function LoadPdfFromBlob(blob) {
+            pdfjsLib.getDocument({ data: blob }).promise.then(function (pdfDoc_) {
+                pdfDoc = pdfDoc_;
+                var pdf_container = document.getElementById("pdf_container");
+                pdf_container.innerHTML = "";
+                pdf_container.style.display = "block";
+                for (var i = 1; i <= pdfDoc.numPages; i++) {
+                    RenderPage(pdf_container, i);
+                }
+            });
+        };
+        function RenderPage(pdf_container, num) {
+            pdfDoc.getPage(num).then(function (page) {
+                var canvas = document.createElement('canvas');
+                canvas.id = 'pdf-' + num;
+                ctx = canvas.getContext('2d');
+                pdf_container.appendChild(canvas);
+
+                var spacer = document.createElement("div");
+                spacer.style.height = "20px";
+                pdf_container.appendChild(spacer);
+
+                var viewport = page.getViewport({ scale: scale });
+                canvas.height = resolution * viewport.height;
+                canvas.width = resolution * viewport.width;
+
+                var renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport,
+                    transform: [resolution, 0, 0, resolution, 0, 0]
+                };
+
+                page.render(renderContext);
+            });
+        };
+    </script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <div class="text-center">
+
+        <form asp-controller="Home" asp-action="Run" method="post">
+            <div class="panel panel-default">
+                <div class="panel-body">Chat With PDF</div>
+                <div class="panel-body">
+                    <div class="col-sm-9">
+                        <input type="text" name="searchText" value="@ViewBag.Text" class="form-control" autocomplete="off" />
+                    </div>
+                    <div class="col-sm-3" style="margin-left: -70px;">
+                        <input type="submit" class="btn btn-primary" value="Ask" />
+                    </div>
+                    @if (ViewBag.Answer != null)
+                    {
+                        <div class="col-sm-12 mt-5">
+                            @Html.Raw(ViewBag.Answer)
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+﻿@model ai_tool_suite.Models.Prompts
+
+@{
+    ViewBag.Title = "Run";
+}
+
+<h3>Run prompt?</h3>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+           Prompt (Request)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Prompt)
+        </dd>
+
+        <dt>
+            Prompt Tokens
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PromptTokens)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Run" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

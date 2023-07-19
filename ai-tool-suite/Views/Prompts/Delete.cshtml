@@ -1,0 +1,63 @@
+﻿@model ai_tool_suite.Models.Prompts
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h3>Delete Prompt?</h3>
+
+<div>
+    <h4>Prompts</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Prompt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Prompt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Result)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Result)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PromptTokens)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PromptTokens)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompletionTokens)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompletionTokens)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalTokens)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalTokens)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
